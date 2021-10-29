@@ -14,4 +14,4 @@ And then
 ```haxelib run lime setup```
 
 Finally, run this command to compile
-```lime test windows/mac/linux/ -release```
+```lime test windows/mac/linux -release```
