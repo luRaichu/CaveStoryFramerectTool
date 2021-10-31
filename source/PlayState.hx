@@ -23,7 +23,9 @@ class PlayState extends FlxState
 	public var UI_radio:FlxUIRadioGroup;
 	public var rectString:FlxInputText;
 	public var rectBox:FlxUIInputText;
+	public var hexBox:FlxUIInputText;
 	public var rectButton:FlxUIButton;
+	public var hexButton:FlxUIButton;
 	public var UI_box:FlxUITabMenu;
 
 	override public function create()
@@ -72,11 +74,20 @@ class PlayState extends FlxState
 		rectBox = new FlxUIInputText(UI_box.x + 24, UI_box.y + 128, 256, "", 16, FlxColor.BLACK, FlxColor.WHITE);
 		add(rectBox);
 
+		hexBox = new FlxUIInputText(UI_box.x + 24, rectBox.y + 48, 256, "", 16, FlxColor.BLACK, FlxColor.WHITE);
+		add(hexBox);
+
 		var recttext = new FlxText(UI_box.x + 16, rectBox.y - 16, -1, "Rect");
 		add(recttext);
 
-		rectButton = new FlxUIButton(UI_box.x + 16, rectBox.y + 32, "Display Rect", displayRect);
+		var hextext = new FlxText(UI_box.x + 16, hexBox.y - 16, -1, "Hexidecimal Rect");
+		add(hextext);
+
+		rectButton = new FlxUIButton(UI_box.x + 16, rectBox.y + 80, "Display Rect", displayRect);
 		add(rectButton);
+
+		hexButton = new FlxUIButton(UI_box.x + 16, rectBox.y + 104, "Display Hex Rect", displayHexRect);
+		add(hexButton);
 	}
 	function displayRect():Void
 	{
@@ -92,7 +103,21 @@ class PlayState extends FlxState
 		rectDisplay.y = y1 * mag;
 		rectDisplay.scale.set(mag, mag); // Reset scale
 		rectDisplay.scale.set(x2 * mag - rectDisplay.x, y2 * mag - rectDisplay.y);
-		
+	}
+	function displayHexRect():Void
+	{
+		var hexList:Array<String> = hexBox.text.split(', ');
+
+		var x1 = Std.parseInt("0x" + hexList[0]);
+		var y1 = Std.parseInt("0x" + hexList[1]);
+		var x2 = Std.parseInt("0x" + hexList[2]);
+		var y2 = Std.parseInt("0x" + hexList[3]);
+	
+		rectDisplay.alpha = 0.5;
+		rectDisplay.x = x1 * mag;
+		rectDisplay.y = y1 * mag;
+		rectDisplay.scale.set(mag, mag); // Reset scale
+		rectDisplay.scale.set(x2 * mag - rectDisplay.x, y2 * mag - rectDisplay.y);
 	}
 	override public function update(elapsed:Float)
 	{
@@ -102,6 +127,7 @@ class PlayState extends FlxState
 			rectDisplay.alpha = 0;
 			box.scale.set(FlxMath.roundDecimal(FlxG.mouse.x / mag, 0) * mag - box.x + 1, FlxMath.roundDecimal(FlxG.mouse.y / mag, 0) * mag - box.y + 1);
 			rectBox.text = box.x / mag + ", " + box.y / mag + ", " + FlxMath.roundDecimal(FlxG.mouse.x / mag, 0) + ", " + FlxMath.roundDecimal(FlxG.mouse.y / mag, 0);
+			hexBox.text = StringTools.hex(Std.int(box.x / mag)) + ", " + StringTools.hex(Std.int(box.y / mag)) + ", " + StringTools.hex(Std.int(FlxMath.roundDecimal(FlxG.mouse.x / mag, 0))) + ", " + StringTools.hex(Std.int(FlxMath.roundDecimal(FlxG.mouse.y / mag, 0)));
 		}
 		else
 		{
