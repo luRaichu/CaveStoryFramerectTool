@@ -16,7 +16,7 @@ and
 Finally, run this command to compile.
 ```lime test windows/mac/linux -release```
 
-Note for Linux: You'll need to `apt get` the `g++-multilib` and `gcc-multilib` packages.
+Note for Linux: You'll need to `apt-get` `g++-multilib` and `gcc-multilib`.
 
 # Windows Only Dependencies
 If you are planning to build for Windows, you also need to install Visual Studio 2019. 
